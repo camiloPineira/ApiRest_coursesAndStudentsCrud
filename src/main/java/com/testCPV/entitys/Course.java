@@ -6,11 +6,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 
+
 /*  
  *  
- *  Here the class 'Course' is initialized as entity
- *  and in which table it will be stored, (in this example, in the table 'courses').
- *  In addition, the fields and constructors of the entity/table are generated
+ *  Here the class 'Course' is initialized as an entity 
+ *  and it is indicated in which SQL table it will be stored (in this
+ *  case, in the table 'courses'). Also, the fields and 
+ *  constructors of the entity/table are generated
  *
  */
 @Entity

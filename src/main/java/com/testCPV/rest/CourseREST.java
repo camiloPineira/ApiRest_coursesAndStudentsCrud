@@ -22,7 +22,6 @@ import com.testCPV.entitys.Course;
  * From here, the rest services that the API will have are generated. 
  * The default URL for this rest services is '/courses'
  */
-
 @RestController
 @RequestMapping("courses")
 public class CourseREST {
@@ -44,9 +43,9 @@ public class CourseREST {
 	
 	/*
 	 *	The following rest service delivers the data from the course code delivered in the URL 
-	 *	If not found, returns 404 status
+	 *	If not found, returns status 404
 	 */
-	@RequestMapping(value="{courseCode}")
+	@RequestMapping(value="{courseCode}", headers = "content-type=application/json")
 	public ResponseEntity<Course> getCourseByCode(@PathVariable("courseCode") String courseCode){
 		Optional<Course> optionalCourse = courseDAO.findById(courseCode);
 		if (optionalCourse.isPresent()) {
@@ -76,7 +75,7 @@ public class CourseREST {
 	 *  indicated in the URL with the data provided in the JSON.
 	 *  It's also validated that the new code has a maximum of 4 characters
 	 */
-	@PutMapping(value="{courseCode}")
+	@PutMapping(value="{courseCode}",headers = "content-type=application/json")
 	public ResponseEntity<Course> updateCourse(@PathVariable("courseCode") String courseCode,@RequestBody Course course){
 		Optional<Course> optionalCourse = courseDAO.findById(courseCode);
 		if (optionalCourse.isPresent() && courseCode.length() < 5) {
@@ -92,8 +91,9 @@ public class CourseREST {
 	
 	/*
 	 *  The following rest service removes the course indicated in the URL from the SQL table 'courses'
+	 *  If not found, returns status 404
 	 */
-	@DeleteMapping(value="{courseCode}")
+	@DeleteMapping(value="{courseCode}",headers = "content-type=application/json")
 	public ResponseEntity<Void> deleteCourse(@PathVariable("courseCode") String courseCode){
 		Optional<Course> optionalCourse = courseDAO.findById(courseCode);
 		if (optionalCourse.isPresent()) {

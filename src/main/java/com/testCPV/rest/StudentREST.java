@@ -25,7 +25,6 @@ import com.testCPV.entitys.Student;
 @RequestMapping("students")
 public class StudentREST {
 	
-	
     /*  
      *  This function 'validateRut' will validate the rut of the student and 
 	 *  return true if it's a validate rut or false if it's an incorrect rut
@@ -66,20 +65,18 @@ public class StudentREST {
 	 *  The following rest service responds all the students
 	 *  in the table 'students' 
 	 */
-	
 	@GetMapping("/all")
 	public ResponseEntity<List<Student>> getStudents(){
 		List<Student> students = studentDAO.findAll();
 		return ResponseEntity.ok(students);	
 	}	
 	
-	
 	/*
 	 *	The following rest service delivers the data from the student RUT delivered in the URL 
-	 *	If not found, returns 404 status
+	 *	If not found, returns status 404
 	 */
 	
-	@RequestMapping(value="{studentRut}")
+	@RequestMapping(value="{studentRut}",headers = "content-type=application/json")
 	public ResponseEntity<Student> getStudentByRut(@PathVariable("studentRut") String studentRut){
 		Optional<Student> optionalStudent = studentDAO.findById(studentRut);
 		if (optionalStudent.isPresent()) {
@@ -109,7 +106,7 @@ public class StudentREST {
 	 *  It's also validated that the new age is greater than 18 years
 	 */
 	
-	@PutMapping(value="{studentRut}")
+	@PutMapping(value="{studentRut}", headers = "content-type=application/json")
 	public ResponseEntity<Student> updateStudent(@PathVariable("studentRut") String studentRut,@RequestBody Student student){
 		Optional<Student> optionalStudent = studentDAO.findById(student.getRut());
 		if (optionalStudent.isPresent() && student.getAge()>18) {
@@ -128,8 +125,9 @@ public class StudentREST {
 	
 	/*
 	 *  The following rest service removes the student indicated in the URL from the SQL table 'students'
+	 *  If not found, returns status 404
 	 */
-	@DeleteMapping(value="{studentRut}")
+	@DeleteMapping(value="{studentRut}", headers = "content-type=application/json")
 	public ResponseEntity<Void> deleteStudent(@PathVariable("studentRut") String studentRut){
 		Optional<Student> optionalStudent = studentDAO.findById(studentRut);
 		if (optionalStudent.isPresent()) {
